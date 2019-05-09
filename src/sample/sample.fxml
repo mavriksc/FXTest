@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Double?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <AnchorPane prefHeight="418.0" prefWidth="583.0">
+         <children>
+            <Line fx:id="line" endX="186.0" endY="-144.0" layoutX="343.0" layoutY="383.0" startX="98.0" />
+            <Polygon fx:id="shape" fill="DODGERBLUE" layoutX="227.0" layoutY="225.0" stroke="BLACK" strokeType="INSIDE">
+              <points>
+                <Double fx:value="-50.0" />
+                <Double fx:value="40.0" />
+                <Double fx:value="50.0" />
+                <Double fx:value="40.0" />
+                <Double fx:value="0.0" />
+                <Double fx:value="-60.0" />
+              </points>
+            </Polygon>
+            <CheckBox fx:id="checkBox" layoutX="94.0" layoutY="65.0" mnemonicParsing="false" onAction="#updateCheckBox" text="option 1" />
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>
