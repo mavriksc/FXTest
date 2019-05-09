@@ -36,6 +36,8 @@ public class Controller {
                 line.setEndX(line.getEndX() + ThreadLocalRandom.current().nextInt(3) - 1);
                 line.setEndY(line.getEndY() + ThreadLocalRandom.current().nextInt(3) - 1);
                 shape.setRotate(shape.getRotate() + ThreadLocalRandom.current().nextInt(3) - 1);
+                //shape.getPoints().set(2,shape.getPoints().get(2)+ThreadLocalRandom.current().nextInt(3) - 1);
+                //shape.getPoints().set(3,shape.getPoints().get(3)+ThreadLocalRandom.current().nextInt(3) - 1);
             }
 
         }));
@@ -59,23 +61,17 @@ public class Controller {
         }
     }
 
-
-
-
-
     private void update(int sides){
         List<Double> points = getPoints(sides);
-        double x = shape.getLayoutX();
-        double y = shape.getLayoutY();
-        anchorPane.getChildren().remove(shape);
-        double[] pointArray = new double[points.size()];
-        for (int i = 0; i < pointArray.length; i++) {
-            pointArray[i]=points.get(i);
+        for (int i = 0; i <Math.min(points.size(),shape.getPoints().size()); i++) {
+            shape.getPoints().set(i,points.get(i));
         }
-        shape =  new Polygon(pointArray);
-        shape.setLayoutX(x);
-        shape.setLayoutY(y);
-        anchorPane.getChildren().add(shape);
+        while (points.size()<shape.getPoints().size()){
+            shape.getPoints().remove(shape.getPoints().size() - 1);
+        }
+        if (points.size()>shape.getPoints().size()){
+            shape.getPoints().addAll(points.subList(shape.getPoints().size(),points.size()));
+        }
     }
 
     @FXML
