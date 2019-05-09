@@ -2,32 +2,40 @@ package sample;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Controller {
+
     @FXML
     private Polygon shape;
     @FXML
     private Line line;
     @FXML
     private CheckBox checkBox;
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
-    private void initialize()
-    {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(20),event -> {
-            if(checkBox.isSelected()) {
-                line.setStartX(line.getStartX()+ThreadLocalRandom.current().nextInt(3) - 1);
-                line.setStartY(line.getStartY()+ThreadLocalRandom.current().nextInt(3) - 1);
+    private void initialize() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(20), event -> {
+            if (checkBox.isSelected()) {
+                line.setStartX(line.getStartX() + ThreadLocalRandom.current().nextInt(3) - 1);
+                line.setStartY(line.getStartY() + ThreadLocalRandom.current().nextInt(3) - 1);
 
-                line.setEndX(line.getEndX()+ThreadLocalRandom.current().nextInt(3) - 1);
-                line.setEndY(line.getEndY()+ThreadLocalRandom.current().nextInt(3) - 1);
+                line.setEndX(line.getEndX() + ThreadLocalRandom.current().nextInt(3) - 1);
+                line.setEndY(line.getEndY() + ThreadLocalRandom.current().nextInt(3) - 1);
+                shape.setRotate(shape.getRotate() + ThreadLocalRandom.current().nextInt(3) - 1);
             }
 
         }));
@@ -35,14 +43,63 @@ public class Controller {
         timeline.play();
     }
 
+    @FXML
+    private void incPoly() {
+        int points = shape.getPoints().size() / 2;
+        if (points < 100) {
+            update(points+1);
+        }
+    }
 
     @FXML
-    private void updateCheckBox(){
-        if(checkBox.isSelected())
+    private void decPoly() {
+        int points = shape.getPoints().size() / 2;
+        if (points >= 4) {
+            update(points-1);
+        }
+    }
+
+
+
+
+
+    private void update(int sides){
+        List<Double> points = getPoints(sides);
+        double x = shape.getLayoutX();
+        double y = shape.getLayoutY();
+        anchorPane.getChildren().remove(shape);
+        double[] pointArray = new double[points.size()];
+        for (int i = 0; i < pointArray.length; i++) {
+            pointArray[i]=points.get(i);
+        }
+        shape =  new Polygon(pointArray);
+        shape.setLayoutX(x);
+        shape.setLayoutY(y);
+        anchorPane.getChildren().add(shape);
+    }
+
+    @FXML
+    private void updateCheckBox() {
+        if (checkBox.isSelected())
             System.out.println("things happened");
         else
             System.out.println("things don't want to happen");
     }
 
+    private List<Double> getPoints(int sides) {
+        List<Double> points = new ArrayList<>();
+        double a = (Math.PI*2)/sides;
+        for (int i = 0; i < sides; i++) {
+            points.addAll(polarToCartesian(i*a,50));
+        }
+        return points;
+    }
+
+    private List<Double> polarToCartesian(double a,double r){
+        List<Double> points  = new ArrayList<>();
+        points.add(r*Math.cos(a));
+        points.add(r*Math.sin(a));
+        return points;
+    }
 
 }
