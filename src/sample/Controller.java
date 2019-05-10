@@ -63,15 +63,7 @@ public class Controller {
 
     private void update(int sides){
         List<Double> points = getPoints(sides);
-        for (int i = 0; i <Math.min(points.size(),shape.getPoints().size()); i++) {
-            shape.getPoints().set(i,points.get(i));
-        }
-        while (points.size()<shape.getPoints().size()){
-            shape.getPoints().remove(shape.getPoints().size() - 1);
-        }
-        if (points.size()>shape.getPoints().size()){
-            shape.getPoints().addAll(points.subList(shape.getPoints().size(),points.size()));
-        }
+        shape.getPoints().setAll(points);
     }
 
     @FXML
